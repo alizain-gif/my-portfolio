@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0c0f;
+    --bg: #050709;
     --bg2: #0f1217;
     --bg3: #151921;
     --accent: #00e5a0;
@@ -16,7 +16,9 @@
     --border: rgba(0,229,160,0.15);
     --text: #e8edf3;
     --muted: #6b7a8d;
-    --card: #111418;
+    --card: #0f1419;
+    --shadow: 0 20px 60px rgba(0,229,160,0.08);
+    --shadow-hover: 0 30px 80px rgba(0,229,160,0.15);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -157,14 +159,22 @@
     line-height: 0.95;
     letter-spacing: -0.03em;
     margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
   }
   h1 .line1 { display: block; color: var(--text); }
   h1 .line2 {
     display: block;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, #00e5a0 0%, #00b8ff 50%, #00e5a0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: gradientShift 6s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(10deg); }
   }
 
   .hero-desc {
@@ -181,30 +191,54 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.8rem;
-    border-radius: 4px;
+    padding: 0.85rem 2rem;
+    border-radius: 6px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.8rem;
     letter-spacing: 0.06em;
     text-decoration: none;
-    transition: all 0.25s;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: pointer;
     border: none;
+    position: relative;
+    overflow: hidden;
   }
 
-  .btn-primary {
-    background: var(--accent);
-    color: #0a0c0f;
-    font-weight: 500;
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.15);
+    transition: left 0.3s;
+    z-index: -1;
   }
-  .btn-primary:hover { background: #00ffb3; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,229,160,0.3); }
+
+  .btn:hover::before { left: 100%; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #00d494);
+    color: #0a0c0f;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,229,160,0.2);
+  }
+  .btn-primary:hover { 
+    background: linear-gradient(135deg, #00ffb3, #00e5a0);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0,229,160,0.35);
+  }
 
   .btn-outline {
     background: transparent;
     color: var(--accent);
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--accent);
+    box-shadow: inset 0 0 0 0 var(--accent-dim);
   }
-  .btn-outline:hover { border-color: var(--accent); background: var(--accent-dim); }
+  .btn-outline:hover { 
+    background: var(--accent-dim);
+    box-shadow: inset 0 0 0 1.5px var(--accent);
+    transform: translateY(-2px);
+  }
 
   .hero-stats {
     display: flex;
@@ -251,7 +285,10 @@
   }
 
   /* ── ABOUT ── */
-  #about { background: var(--bg2); }
+  #about { 
+    background: linear-gradient(180deg, rgba(15,18,23,0.5) 0%, rgba(10,12,15,0.3) 100%);
+    border-top: 1px solid var(--border);
+  }
 
   .about-grid {
     display: grid;
@@ -303,19 +340,29 @@
   }
   .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .skill-tag {
-    padding: 0.3rem 0.75rem;
+    padding: 0.4rem 0.9rem;
     border: 1px solid var(--border);
-    border-radius: 3px;
+    border-radius: 6px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.72rem;
     color: var(--muted);
-    background: var(--bg3);
-    transition: all 0.2s;
+    background: rgba(15,18,25,0.6);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
   }
-  .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .skill-tag:hover { 
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,229,160,0.1);
+  }
 
   /* ── EXPERIENCE ── */
-  #experience { background: var(--bg); }
+  #experience { 
+    background: linear-gradient(180deg, rgba(10,12,15,0.3) 0%, rgba(15,18,23,0.5) 100%);
+    border-top: 1px solid var(--border);
+  }
 
   .timeline {
     position: relative;
@@ -412,7 +459,10 @@
   }
 
   /* ── SKILLS SECTION ── */
-  #skills { background: var(--bg2); }
+  #skills { 
+    background: linear-gradient(180deg, rgba(15,18,23,0.5) 0%, rgba(10,12,15,0.3) 100%);
+    border-top: 1px solid var(--border);
+  }
 
   .skills-grid {
     display: grid;
@@ -421,13 +471,14 @@
   }
 
   .skill-card {
-    background: var(--card);
+    background: linear-gradient(135deg, rgba(15,18,25,0.8) 0%, rgba(21,25,33,0.4) 100%);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.75rem;
-    transition: all 0.3s;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(10px);
   }
   .skill-card::before {
     content: '';
@@ -437,10 +488,25 @@
     background: linear-gradient(90deg, var(--accent), var(--accent2));
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.3s;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .skill-card:hover { border-color: rgba(0,229,160,0.3); transform: translateY(-3px); }
+  .skill-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(0,229,160,0.1) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .skill-card:hover { 
+    border-color: rgba(0,229,160,0.3);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+    background: linear-gradient(135deg, rgba(15,18,25,0.95) 0%, rgba(21,25,33,0.6) 100%);
+  }
   .skill-card:hover::before { transform: scaleX(1); }
+  .skill-card:hover::after { opacity: 1; }
 
   .skill-card-icon {
     font-size: 1.8rem;
@@ -461,7 +527,10 @@
   }
 
   /* ── EDUCATION ── */
-  #education { background: var(--bg); }
+  #education { 
+    background: linear-gradient(180deg, rgba(10,12,15,0.3) 0%, rgba(15,18,23,0.5) 100%);
+    border-top: 1px solid var(--border);
+  }
 
   .edu-grid {
     display: grid;
@@ -470,13 +539,31 @@
   }
 
   .edu-card {
-    background: var(--card);
+    background: linear-gradient(135deg, rgba(15,18,25,0.7) 0%, rgba(21,25,33,0.3) 100%);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 2rem;
-    transition: all 0.3s;
+    border-radius: 12px;
+    padding: 2.2rem;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
   }
-  .edu-card:hover { border-color: rgba(0,184,255,0.3); transform: translateY(-2px); }
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--accent2), transparent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .edu-card:hover { 
+    border-color: rgba(0,184,255,0.3);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+  }
+  .edu-card:hover::before { transform: scaleY(1); }
 
   .edu-degree {
     font-family: 'Syne', sans-serif;
@@ -500,8 +587,19 @@
 
   /* ── CONTACT CTA ── */
   #contact {
-    background: var(--bg2);
+    background: linear-gradient(180deg, rgba(15,18,23,0.7) 0%, rgba(10,12,15,0.5) 100%);
     text-align: center;
+    border-top: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0,184,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
   }
 
   .cta-box {
@@ -647,6 +745,7 @@
           <span class="skill-tag">Selenium</span>
           <span class="skill-tag">Appium</span>
           <span class="skill-tag">Cypress</span>
+          <span class="skill-tag">Playwright</span>
         </div>
       </div>
       <div class="skills-category">
@@ -771,7 +870,7 @@
     <div class="skill-card reveal">
       <div class="skill-card-icon">🤖</div>
       <div class="skill-card-title">Automation Testing</div>
-      <div class="skill-card-items">Selenium · Appium · Cypress<br>Scripted regression cycles, cross-platform mobile automation</div>
+      <div class="skill-card-items">Selenium · Appium · Cypress · Playwright<br>Scripted regression cycles, cross-platform mobile automation</div>
     </div>
 
     <div class="skill-card reveal">
